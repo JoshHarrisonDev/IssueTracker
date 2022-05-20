@@ -2,6 +2,7 @@
 using IssueTracker.Services.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IssueTracker.Controllers
@@ -11,11 +12,13 @@ namespace IssueTracker.Controllers
         private RoleManager<IdentityRole> _roleManager;
         private UserManager<IdentityUser> _userManager;
         private IPersonService _personService;
-        public RoleController(RoleManager<IdentityRole> roleManager, IPersonService personService, UserManager<IdentityUser> userManager)
+        private IdentityDbContext _identityDbContext;
+        public RoleController(RoleManager<IdentityRole> roleManager, IPersonService personService, UserManager<IdentityUser> userManager, IdentityDbContext identityDbContext)
         {
             _roleManager = roleManager;
             _personService = personService;
             _userManager = userManager;
+            _identityDbContext = identityDbContext;
         }
         // GET: RoleController
         public ActionResult Index()
@@ -25,18 +28,31 @@ namespace IssueTracker.Controllers
         }
 
         // GET: RoleController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> ViewRole(string id)
         {
-            return View();
+            
+           var userRoles = _identityDbContext.UserRoles.ToList();
+           foreach (var userRole in userRoles)
+            {
+                if(userRole.RoleId == id)
+                {
+                   var role = await _roleManager.FindByIdAsync(userRole.RoleId);
+
+                    var users = await _userManager.GetUsersInRoleAsync(role.Name);
+                    
+                    IdentityUserList identityUserList = new IdentityUserList()
+                    {
+                        Users = users,
+                        RoleName = role.Name
+                    };
+                    return View(identityUserList);
+                }
+            }
+            return RedirectToAction("Index");
         }
 
         // GET: RoleController/Create
-        public ActionResult Create()
-        {
-
-
-            return View();
-        }
+        
         public ActionResult AssignUserToRole()
         {
             RoleAssign roleAssign = new RoleAssign();
@@ -55,14 +71,19 @@ namespace IssueTracker.Controllers
             await _userManager.AddToRoleAsync(identityUser, roleAssign.RoleName);
             return RedirectToAction("Index");
         }
+        public ActionResult Create()
+        {
+            return View();
+        }
 
         // POST: RoleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(IdentityRole identityRole)
         {
             try
             {
+                await _roleManager.CreateAsync(identityRole);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -93,18 +114,17 @@ namespace IssueTracker.Controllers
         }
 
         // GET: RoleController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        
 
         // POST: RoleController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {
+                var role = await _roleManager.FindByIdAsync(id);
+                await _roleManager.DeleteAsync(role);
                 return RedirectToAction(nameof(Index));
             }
             catch

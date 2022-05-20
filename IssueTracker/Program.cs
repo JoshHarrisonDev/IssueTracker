@@ -2,6 +2,7 @@ using IssueTracker.Data;
 using IssueTracker.Services.IService;
 using IssueTracker.Services.Service;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<DbContext, IssueTrackerContext>();
 builder.Services.AddScoped<IPersonService, PersonService>();
+builder.Services.AddScoped<IdentityDbContext, ApplicationDbContext>();
+
 
 var app = builder.Build();
 

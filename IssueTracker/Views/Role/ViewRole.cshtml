@@ -1,0 +1,25 @@
+﻿@model IdentityUserList
+
+
+
+
+<h2>Users in Role: @Model.RoleName</h2>
+<table>
+    <tr>
+        <th>User Email</th>
+    </tr>
+    @if (Model.Users != null)
+    {
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+            </tr>
+
+        }
+    }
+
+
+</table>
+
+<a class="btn btn-danger" asp-action="Index">Index</a>

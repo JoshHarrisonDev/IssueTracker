@@ -1,0 +1,14 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityRole 
+
+<h2 class="text-center">Create Role</h2>
+<form method="post" asp-action="Create">
+    <div class="d-flex flex-column form-control form">
+        <label asp-for="Name">Role Name: </label>
+        <input asp-for="Name" />
+    </div>
+    <input type="submit" class="btn btn-primary" value="Submit" />
+    <a class="btn btn-danger" asp-action="Index">Index</a> 
+    
+
+</form>
