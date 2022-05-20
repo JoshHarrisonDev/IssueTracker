@@ -32,6 +32,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<DbContext, IssueTrackerContext>();
 builder.Services.AddScoped<IPersonService, PersonService>();
 builder.Services.AddScoped<IdentityDbContext, ApplicationDbContext>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IIssueService, IssueService>();
 
 
 var app = builder.Build();

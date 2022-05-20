@@ -17,7 +17,9 @@ namespace IssueTracker.Services.IService
 
         void Update(Project project);   
 
-        void Delete(Project project); 
+        void Delete(Project project);
+
+        Person GetProjectLead(int projectID);
 
       
     }

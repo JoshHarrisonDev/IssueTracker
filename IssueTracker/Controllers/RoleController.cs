@@ -61,6 +61,20 @@ namespace IssueTracker.Controllers
 
             return View(roleAssign);
         }
+        public ActionResult ReAssignUserToRole()
+        {
+            RoleAssign roleAssign = new RoleAssign();
+            roleAssign.Roles = _roleManager.Roles.ToList();
+            roleAssign.RolelessPeople = _personService.GetAll();
+
+            return View(roleAssign);
+        }
+        [HttpPost]
+        public ActionResult RemoveRole(int id)
+        {
+            _personService.RemoveRole(id);
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public async Task<IActionResult> AssignUserToRole(RoleAssign roleAssign)
@@ -124,6 +138,14 @@ namespace IssueTracker.Controllers
             try
             {
                 var role = await _roleManager.FindByIdAsync(id);
+                var people = _personService.GetAll();
+                foreach (var person in people)
+                {
+                    if(person.Role == role.Name)
+                    {
+                        _personService.RemoveRole(person.ID);
+                    }
+                }
                 await _roleManager.DeleteAsync(role);
                 return RedirectToAction(nameof(Index));
             }

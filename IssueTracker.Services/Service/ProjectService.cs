@@ -8,10 +8,12 @@ namespace IssueTracker.Services.Service
     public class ProjectService : IProjectService
     {
         private IssueTrackerContext _context;
+        private IPersonService _personService;  
 
-        public ProjectService(IssueTrackerContext context)
+        public ProjectService(IssueTrackerContext context, IPersonService personService)
         {
             _context = context;
+            _personService = personService;
         }
 
         public void Add(Project project)
@@ -33,6 +35,13 @@ namespace IssueTracker.Services.Service
 #pragma warning disable CS8603 // Possible null reference return.
             return projects.FirstOrDefault(p => p.ID == ID);
 #pragma warning restore CS8603 // Possible null reference return.
+        }
+
+        public Person GetProjectLead(int projectID)
+        {
+            Project project = GetProject(projectID);
+            Person projectLead = _personService.Get(project.ProjectLead);
+            return projectLead;
         }
 
         public IList<Project> GetProjects()

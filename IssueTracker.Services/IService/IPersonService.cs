@@ -27,6 +27,8 @@ namespace IssueTracker.Services.IService
 
         void AssignRole(string role, int id);
 
+        void RemoveRole(int id);
+
 
 
     }

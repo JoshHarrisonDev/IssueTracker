@@ -1,0 +1,70 @@
+﻿@model IssueTracker.Models.RoleAssign
+
+<div class="row d-flex justify-content-center">
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">Role ID</th>
+            <th scope="col">Role Name</th>
+        </tr>
+
+        @foreach (var Role in Model.Roles)
+        {
+            <tr>
+                <td>@Role.Id</td>
+                <td>@Role.Name</td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="row d-flex justify-content-center">
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">Person ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Remove Role</th>
+        </tr>
+
+        @foreach (var person in Model.RolelessPeople)
+        {
+            <tr>
+                <td>@person.ID</td>
+                <td>@person.UserName</td>
+                <td>@person.Role</td>
+                <td>
+                    <form asp-route-id="@person.ID" asp-action="RemoveRole" method="post">
+                        <input type="submit" value="Remove Role" class="btn btn-danger">
+                    </form>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<form asp-action="AssignUserToRole" method="post">
+    <div class="form-control">
+        <label asp-for="RoleName">Select Role: </label>
+        <select asp-for="RoleName">
+            @foreach (var role in Model.Roles)
+            {
+                <option value="@role.Name">
+                    @role.Name
+                </option>
+            }
+        </select>
+    </div>
+    <div class="form-control">
+        <label asp-for="UserID">Select User: </label>
+        <select asp-for="UserID">
+            @foreach (var person in Model.RolelessPeople)
+            {
+                <option value="@person.ID">
+                    @person.UserName
+                </option>
+            }
+        </select>
+    </div>
+    <input type="submit" value="Submit" class="btn btn-success"/>
+    <a class="btn btn-danger" asp-action="Index">Index</a> 
+</form>

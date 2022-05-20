@@ -74,6 +74,13 @@ namespace IssueTracker.Services.Service
             _context.SaveChanges();
         }
 
+        public void RemoveRole(int id)
+        {
+            Person person = Get(id);
+            person.Role = null;
+            _context.SaveChanges();
+        }
+
         public void Update(Person person)
         {
             Person personToUpdate = Get(person.ID);

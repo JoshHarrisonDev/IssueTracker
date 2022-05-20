@@ -1,14 +1,46 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IssueTracker.Services.IService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using IssueTracker.Models;
 
 namespace IssueTracker.Controllers
 {
     public class ProjectController : Controller
     {
+        private IProjectService _projectService;
+        private IPersonService _personService;
+        private IIssueService _issueService;
+        public ProjectController(IProjectService projectService, IPersonService personService, IIssueService issueService)
+        {
+            _projectService = projectService;
+            _personService = personService;
+            _issueService = issueService;
+
+        }
         // GET: ProjectController
         public ActionResult Index()
         {
+
             return View();
+        }
+        public ActionResult GetProject(int userId)
+        {
+            var person = _personService.Get(userId);
+            ProjectIssuePersonModel model = new ProjectIssuePersonModel()
+            {
+                Id = (int)person.ProjectID,
+                Issues = _issueService.GetIssueForProject((int)person.ProjectID),
+                People = _personService.GetPersonsWithProject((int)person.ProjectID),
+                CreatedAt = _projectService.GetProject((int)person.ProjectID).CreatedAt,
+                ModifiedAt = _projectService.GetProject((int)person.ProjectID).ModifiedAt,
+                ActualEndDate = _projectService.GetProject((int)person.ProjectID).ActualEndDate,
+                ProjectLead = _projectService.GetProjectLead((int)person.ProjectID),
+                ProjectName = _projectService.GetProject((int)person.ProjectID).ProjectName,
+                StartDate = _projectService.GetProject((int)person.ProjectID).StartDate,
+                TargetEndDate = _projectService.GetProject((int)person.ProjectID).TargetEndDate,
+            };
+           
+            return View(model);
         }
 
         // GET: ProjectController/Details/5
