@@ -1,0 +1,61 @@
+﻿@model IssueTracker.Models.RoleAssign
+
+<div class="row d-flex justify-content-center">
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">Role ID</th>
+            <th scope="col">Role Name</th>
+        </tr>
+
+        @foreach (var Role in Model.Roles)
+        {
+            <tr>
+                <td>@Role.Id</td>
+                <td>@Role.Name</td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="row d-flex justify-content-center">
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">Person ID</th>
+            <th scope="col">Username</th>
+        </tr>
+
+        @foreach (var person in Model.RolelessPeople)
+        {
+            <tr>
+                <td>@person.ID</td>
+                <td>@person.UserName</td>
+            </tr>
+        }
+
+    </table>
+</div>
+<form method="post">
+    <div class="form-control">
+        <label asp-for="RoleName">Select Role: </label>
+        <select asp-for="RoleName">
+            @foreach (var role in Model.Roles)
+            {
+                <option value="@role.Name">
+                    @role.Name
+                </option>
+            }
+        </select>
+    </div>
+    <div class="form-control">
+        <label asp-for="UserID">Select User: </label>
+        <select asp-for="UserID">
+            @foreach (var person in Model.RolelessPeople)
+            {
+                <option value="@person.ID">
+                    @person.UserName
+                </option>
+            }
+        </select>
+    </div>
+    <input type="submit" value="Submit" class="btn btn-success"/>
+</form>
