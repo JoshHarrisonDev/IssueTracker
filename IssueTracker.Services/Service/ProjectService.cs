@@ -1,14 +1,13 @@
 ﻿using IssueTracker.Data;
 using IssueTracker.Data.Domain;
 using IssueTracker.Services.IService;
-using Microsoft.EntityFrameworkCore;
 
 namespace IssueTracker.Services.Service
 {
     public class ProjectService : IProjectService
     {
         private IssueTrackerContext _context;
-        private IPersonService _personService;  
+        private IPersonService _personService;
 
         public ProjectService(IssueTrackerContext context, IPersonService personService)
         {
@@ -28,7 +27,7 @@ namespace IssueTracker.Services.Service
             _context.SaveChanges();
         }
 
-       
+
         public Project GetProject(int ID)
         {
             IList<Project> projects = GetProjects();

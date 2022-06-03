@@ -2,11 +2,6 @@
 using IssueTracker.Data.Domain;
 using IssueTracker.Services.IService;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IssueTracker.Services.Service
 {
@@ -36,11 +31,11 @@ namespace IssueTracker.Services.Service
             IList<Person> persons = GetAll();
             foreach (Person person in persons)
             {
-                if(firstName + " " + lastName == person.UserName)
+                if (firstName + " " + lastName == person.UserName)
                 {
                     return firstName + " " + lastName + person.ID.ToString();
                 }
-                           
+
             }
             return firstName + " " + lastName;
         }
@@ -54,7 +49,7 @@ namespace IssueTracker.Services.Service
 
         public IList<Person> GetAll()
         {
-           return _context.Person.Include(p => p.Project).ToList();
+            return _context.Person.Include(p => p.Project).ToList();
         }
 
         public IList<Person> GetPersonsWithProject(int projectID)

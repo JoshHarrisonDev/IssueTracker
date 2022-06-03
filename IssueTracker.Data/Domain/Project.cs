@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IssueTracker.Data.Domain
+﻿namespace IssueTracker.Data.Domain
 {
-    public  class Project
+    public class Project
     {
         public int ID { get; set; }
 
@@ -26,6 +20,6 @@ namespace IssueTracker.Data.Domain
 
         public int ProjectLead { get; set; } = default!;
 
-        
+
     }
 }

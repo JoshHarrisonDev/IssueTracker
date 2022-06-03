@@ -2,11 +2,6 @@
 using IssueTracker.Data.Domain;
 using IssueTracker.Services.IService;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IssueTracker.Services.Service
 {
@@ -27,7 +22,7 @@ namespace IssueTracker.Services.Service
         {
             issue.CreatedBy = _personService.Get(personID);
             issue.ModifiedBy = _personService.Get(personID);
-            
+
             _context.Issue.Add(issue);
             _context.SaveChanges();
         }
@@ -37,7 +32,7 @@ namespace IssueTracker.Services.Service
             Issue issue = GetIssue(issueID);
             Person person = _personService.Get(personID);
             issue.AssignedTo = person;
-            
+
             _context.SaveChanges();
         }
 

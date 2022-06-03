@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IssueTracker.Data.Domain
+﻿namespace IssueTracker.Data.Domain
 {
     public class Issue
     {
@@ -24,7 +18,7 @@ namespace IssueTracker.Data.Domain
 
         public StatusCode Status { get; set; } = default!;
 
-       public PriorityLevels Priority { get; set; } = default!;
+        public PriorityLevels Priority { get; set; } = default!;
 
         public DateTime TargetResolutionDate { get; set; }
 

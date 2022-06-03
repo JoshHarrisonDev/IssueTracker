@@ -2,24 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using IssueTracker.Data.Domain;
 using IssueTracker.Services.IService;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace IssueTracker.Areas.Identity.Pages.Account
 {
@@ -139,7 +132,7 @@ namespace IssueTracker.Areas.Identity.Pages.Account
                         LastName = Input.LastName,
                         UserName = _personService.CreateUsername(Input.FirstName, Input.LastName),
                         CreatedAt = DateTime.Now,
-                        
+
                     };
                     _personService.Add(person);
                     _logger.LogInformation("User created a new account with password.");
@@ -158,6 +151,7 @@ namespace IssueTracker.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+                        HttpContext.Session.SetString("email", person.Email);
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else

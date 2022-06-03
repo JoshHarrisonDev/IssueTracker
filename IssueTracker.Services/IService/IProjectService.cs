@@ -1,9 +1,4 @@
 ﻿using IssueTracker.Data.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IssueTracker.Services.IService
 {
@@ -15,12 +10,12 @@ namespace IssueTracker.Services.IService
 
         void Add(Project project);
 
-        void Update(Project project);   
+        void Update(Project project);
 
         void Delete(Project project);
 
         Person GetProjectLead(int projectID);
 
-      
+
     }
 }

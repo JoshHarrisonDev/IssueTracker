@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IssueTracker.Data.Domain
+﻿namespace IssueTracker.Data.Domain
 {
     public class Person
     {
@@ -14,7 +8,7 @@ namespace IssueTracker.Data.Domain
 
         public string LastName { get; set; } = default!;
 
-        public string? Role { get; set; } 
+        public string? Role { get; set; }
 
         public string Email { get; set; } = default!;
 

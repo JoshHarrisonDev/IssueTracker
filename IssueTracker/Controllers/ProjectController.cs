@@ -1,7 +1,6 @@
-﻿using IssueTracker.Services.IService;
-using Microsoft.AspNetCore.Http;
+﻿using IssueTracker.Models;
+using IssueTracker.Services.IService;
 using Microsoft.AspNetCore.Mvc;
-using IssueTracker.Models;
 
 namespace IssueTracker.Controllers
 {
@@ -23,9 +22,15 @@ namespace IssueTracker.Controllers
 
             return View();
         }
+        public ActionResult GetProjects()
+        {
+            var projects = _projectService.GetProjects();
+            return View(projects);
+        }
         public ActionResult GetProject(int userId)
         {
             var person = _personService.Get(userId);
+#pragma warning disable CS8629 // Nullable value type may be null.
             ProjectIssuePersonModel model = new ProjectIssuePersonModel()
             {
                 Id = (int)person.ProjectID,
@@ -39,7 +44,8 @@ namespace IssueTracker.Controllers
                 StartDate = _projectService.GetProject((int)person.ProjectID).StartDate,
                 TargetEndDate = _projectService.GetProject((int)person.ProjectID).TargetEndDate,
             };
-           
+#pragma warning restore CS8629 // Nullable value type may be null.
+
             return View(model);
         }
 

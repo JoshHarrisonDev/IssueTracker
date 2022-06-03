@@ -1,6 +1,5 @@
 ﻿using IssueTracker.Models;
 using IssueTracker.Services.IService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -30,16 +29,16 @@ namespace IssueTracker.Controllers
         // GET: RoleController/Details/5
         public async Task<IActionResult> ViewRole(string id)
         {
-            
-           var userRoles = _identityDbContext.UserRoles.ToList();
-           foreach (var userRole in userRoles)
+
+            var userRoles = _identityDbContext.UserRoles.ToList();
+            foreach (var userRole in userRoles)
             {
-                if(userRole.RoleId == id)
+                if (userRole.RoleId == id)
                 {
-                   var role = await _roleManager.FindByIdAsync(userRole.RoleId);
+                    var role = await _roleManager.FindByIdAsync(userRole.RoleId);
 
                     var users = await _userManager.GetUsersInRoleAsync(role.Name);
-                    
+
                     IdentityUserList identityUserList = new IdentityUserList()
                     {
                         Users = users,
@@ -52,7 +51,7 @@ namespace IssueTracker.Controllers
         }
 
         // GET: RoleController/Create
-        
+
         public ActionResult AssignUserToRole()
         {
             RoleAssign roleAssign = new RoleAssign();
@@ -128,7 +127,7 @@ namespace IssueTracker.Controllers
         }
 
         // GET: RoleController/Delete/5
-        
+
 
         // POST: RoleController/Delete/5
         [HttpPost]
@@ -141,7 +140,7 @@ namespace IssueTracker.Controllers
                 var people = _personService.GetAll();
                 foreach (var person in people)
                 {
-                    if(person.Role == role.Name)
+                    if (person.Role == role.Name)
                     {
                         _personService.RemoveRole(person.ID);
                     }
